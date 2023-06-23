@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{29F69992-3EB2-461D-A642-28F4CEEB0191}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankRateAggregator.WebAPI", "BankRateAggregator.WebAPI\BankRateAggregator.WebAPI.csproj", "{2022E0F2-0D3F-4AA1-A02E-566E701D0A0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankRateAggregator.Infrastructure", "BankRateAggregator.Infrastructure\BankRateAggregator.Infrastructure.csproj", "{80CD9959-D1D7-4F41-B4DC-C228211B91AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankRateAggregator.Application", "BankRateAggregator.Application\BankRateAggregator.Application.csproj", "{957F00D5-2C24-4979-9107-79223B5DB398}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankRateAggregator.Domain", "BankRateAggregator.Domain\BankRateAggregator.Domain.csproj", "{9AF6948B-BCB1-4AD4-9B44-B772539F49B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2022E0F2-0D3F-4AA1-A02E-566E701D0A0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2022E0F2-0D3F-4AA1-A02E-566E701D0A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2022E0F2-0D3F-4AA1-A02E-566E701D0A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2022E0F2-0D3F-4AA1-A02E-566E701D0A0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80CD9959-D1D7-4F41-B4DC-C228211B91AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80CD9959-D1D7-4F41-B4DC-C228211B91AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80CD9959-D1D7-4F41-B4DC-C228211B91AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80CD9959-D1D7-4F41-B4DC-C228211B91AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{957F00D5-2C24-4979-9107-79223B5DB398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{957F00D5-2C24-4979-9107-79223B5DB398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{957F00D5-2C24-4979-9107-79223B5DB398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{957F00D5-2C24-4979-9107-79223B5DB398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AF6948B-BCB1-4AD4-9B44-B772539F49B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AF6948B-BCB1-4AD4-9B44-B772539F49B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AF6948B-BCB1-4AD4-9B44-B772539F49B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AF6948B-BCB1-4AD4-9B44-B772539F49B4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2022E0F2-0D3F-4AA1-A02E-566E701D0A0A} = {29F69992-3EB2-461D-A642-28F4CEEB0191}
+		{80CD9959-D1D7-4F41-B4DC-C228211B91AA} = {29F69992-3EB2-461D-A642-28F4CEEB0191}
+		{957F00D5-2C24-4979-9107-79223B5DB398} = {29F69992-3EB2-461D-A642-28F4CEEB0191}
+		{9AF6948B-BCB1-4AD4-9B44-B772539F49B4} = {29F69992-3EB2-461D-A642-28F4CEEB0191}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B9B62DC0-7EDF-4595-AE75-FBFB1EFCDECB}
+	EndGlobalSection
+EndGlobal
