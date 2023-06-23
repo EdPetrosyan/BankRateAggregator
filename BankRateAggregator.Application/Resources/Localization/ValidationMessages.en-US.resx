@@ -141,6 +141,9 @@
   <data name="InvalidStartDate" xml:space="preserve">
     <value>Start date must be less than or equal to end date.</value>
   </data>
+  <data name="IsRequired" xml:space="preserve">
+    <value>{0} is required.</value>
+  </data>
   <data name="LastNameIsRequired" xml:space="preserve">
     <value>Last name is required.</value>
   </data>

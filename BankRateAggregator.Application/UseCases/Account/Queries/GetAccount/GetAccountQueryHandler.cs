@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankRateAggregator.Application.UseCases.Account.Queries.GetAccount
 {
-    public class GetAccountrQueryHandler : IRequestHandler<GetAccountQuery, UserDto?>
+    public class GetAccountQueryHandler : IRequestHandler<GetAccountQuery, UserDto?>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetAccountrQueryHandler(IApplicationDbContext context)
+        public GetAccountQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }
