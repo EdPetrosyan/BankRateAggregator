@@ -29,7 +29,7 @@ namespace BankRateAggregator.Application.Services.Currency
         /// <param name="bankId">Bank Id</param>
         /// <param name="currencies">Currency List that we should parse</param>
         /// <param name="cancellationToken">cancellation Token for cancelling Task</param>
-        /// <returns></returns>
+        /// <returns>Parsed Rates Data From WebPage URL</returns>
         public async Task<List<Rate>?> WebScrappingAsync(string url, string xPath, int bankId, List<CurrencyIdValuePair> currencies, CancellationToken cancellationToken)
         {
             using var httpClient = _httpClientFactory.CreateClient();
@@ -82,7 +82,7 @@ namespace BankRateAggregator.Application.Services.Currency
         /// <param name="bankId">Bank Id</param>
         /// <param name="currencies">Currency List that we should parse</param>
         /// <param name="cancellationToken">cancellation Token for cancelling Task</param>
-        /// <returns></returns>
+        /// <returns>Parsed Rates Data From JSON API Call</returns>
         public async Task<List<Rate>?> ApiCallJsonAsync(BaseApiModel model, string url, int bankId, List<CurrencyIdValuePair> currencies, CancellationToken cancellationToken)
         {
 
@@ -119,7 +119,7 @@ namespace BankRateAggregator.Application.Services.Currency
         /// <param name="bankId">Bank Id</param>
         /// <param name="currencies">Currency List that we should parse</param>
         /// <param name="cancellationToken">cancellation Token for cancelling Task</param>
-        /// <returns></returns>
+        /// <returns>Parsed Rates Data From XML API Call</returns>
         public async Task<List<Rate>?> ApiCallXmlAsync(BaseApiXMLModel model, string url, int bankId, List<CurrencyIdValuePair> currencies, CancellationToken cancellationToken)
         {
             using HttpClient client = new();
@@ -151,7 +151,7 @@ namespace BankRateAggregator.Application.Services.Currency
         /// Getting Currencies with its Aliases 
         /// </summary>
         /// <param name="cancellationToken">cancellation token for cancelling Task</param>
-        /// <returns></returns>
+        /// <returns>Currencies With Aliases</returns>
         public async Task<List<CurrencyIdValuePair>> GetCurrencies(CancellationToken cancellationToken)
         {
             var currencies = await _dbContext.Currencies
