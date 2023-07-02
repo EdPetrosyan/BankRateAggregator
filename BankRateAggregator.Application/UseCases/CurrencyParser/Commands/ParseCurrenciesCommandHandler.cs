@@ -32,17 +32,17 @@ namespace BankRateAggregator.Application.UseCases.CurrencyParser.Commands
                     if (bank.ApiUrl.EndsWith("xml"))
                     {
                         BaseApiXMLModel type = BaseApiXMLFactory.GetApiModel(bank.ApiUrl);
-                        bankRates = await _currencyParser.ApiCallXml(type, bank.ApiUrl, bank.Id, currencies, cancellationToken);
+                        bankRates = await _currencyParser.ApiCallXmlAsync(type, bank.ApiUrl, bank.Id, currencies, cancellationToken);
                     }
                     else
                     {
                         BaseApiModel type = BaseApiFactory.GetApiModel(bank.ApiUrl);
-                        bankRates = await _currencyParser.ApiCallJson(type, bank.ApiUrl, bank.Id, currencies, cancellationToken);
+                        bankRates = await _currencyParser.ApiCallJsonAsync(type, bank.ApiUrl, bank.Id, currencies, cancellationToken);
                     }
                 }
                 else
                 {
-                    bankRates = await _currencyParser.WebScrapping(bank.Url, bank.XPath, bank.Id, currencies, cancellationToken);
+                    bankRates = await _currencyParser.WebScrappingAsync(bank.Url, bank.XPath, bank.Id, currencies, cancellationToken);
                 }
 
                 if (bankRates != null)
