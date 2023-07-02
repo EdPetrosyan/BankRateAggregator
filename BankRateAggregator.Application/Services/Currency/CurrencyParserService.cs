@@ -21,6 +21,15 @@ namespace BankRateAggregator.Application.Services.Currency
             _logger = logger;
         }
 
+        /// <summary>
+        /// Web Scrapping directly from Bank Web Page to get today's rates
+        /// </summary>
+        /// <param name="url">Bank WebPage WUL</param>
+        /// <param name="xPath">XPath for specific form that stores rates</param>
+        /// <param name="bankId">Bank Id</param>
+        /// <param name="currencies">Currency List that we should parse</param>
+        /// <param name="cancellationToken">cancellation Token for cancelling Task</param>
+        /// <returns></returns>
         public async Task<List<Rate>?> WebScrappingAsync(string url, string xPath, int bankId, List<CurrencyIdValuePair> currencies, CancellationToken cancellationToken)
         {
             using var httpClient = _httpClientFactory.CreateClient();
@@ -36,13 +45,16 @@ namespace BankRateAggregator.Application.Services.Currency
                     return null;
                 }
 
+                //getting html result from website URL and load it into HTML document
                 var html = await response.Content.ReadAsStringAsync(cancellationToken);
                 var htmlDocument = new HtmlDocument();
                 htmlDocument.LoadHtml(html);
 
+                // from xPath we'll get the specific form that rates are stored
                 var heading = htmlDocument.DocumentNode.SelectNodes(xpath: xPath).FirstOrDefault();
                 if (heading != null)
                 {
+                    // ignoring additional characters to have only list of items that we will consider
                     var list = heading.InnerHtml.Replace('\n', ' ').Replace('\t', ' ').Replace('<', ' ').Replace('>', ' ').Trim().Split(' ').Where(x => x != "").ToList();
 
                     var listCurrencies = GetCurrenciesFromHtml(list, currencies);
@@ -62,6 +74,15 @@ namespace BankRateAggregator.Application.Services.Currency
             }
         }
 
+        /// <summary>
+        /// Make Request To Bank API with JSON result and Deserializing the Result
+        /// </summary>
+        /// <param name="model">classes that derived from BaseApiModel</param>
+        /// <param name="url">Bank Api URL</param>
+        /// <param name="bankId">Bank Id</param>
+        /// <param name="currencies">Currency List that we should parse</param>
+        /// <param name="cancellationToken">cancellation Token for cancelling Task</param>
+        /// <returns></returns>
         public async Task<List<Rate>?> ApiCallJsonAsync(BaseApiModel model, string url, int bankId, List<CurrencyIdValuePair> currencies, CancellationToken cancellationToken)
         {
 
@@ -79,6 +100,7 @@ namespace BankRateAggregator.Application.Services.Currency
 
                 string responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
 
+                // calling Deserialize from inherited class with its specific deserialization for JSON based APIs
                 return model.DeserializeObject(responseBody, currencies, bankId);
 
             }
@@ -89,6 +111,15 @@ namespace BankRateAggregator.Application.Services.Currency
             return await Task.FromResult<List<Rate>?>(null);
         }
 
+        /// <summary>
+        /// Make Request To Bank API with XML result and Deserializing the Result
+        /// </summary>
+        /// <param name="model">classes that derived from BaseApiXMLModel</param>
+        /// <param name="url">Bank Api URL</param>
+        /// <param name="bankId">Bank Id</param>
+        /// <param name="currencies">Currency List that we should parse</param>
+        /// <param name="cancellationToken">cancellation Token for cancelling Task</param>
+        /// <returns></returns>
         public async Task<List<Rate>?> ApiCallXmlAsync(BaseApiXMLModel model, string url, int bankId, List<CurrencyIdValuePair> currencies, CancellationToken cancellationToken)
         {
             using HttpClient client = new();
@@ -104,7 +135,7 @@ namespace BankRateAggregator.Application.Services.Currency
 
                 using Stream responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
 
-
+                // calling Deserialize from inherited class with its specific deserialization for XML based APIs
                 return model.DeserializeObject(responseStream, currencies, bankId);
 
             }
@@ -116,6 +147,11 @@ namespace BankRateAggregator.Application.Services.Currency
         }
 
 
+        /// <summary>
+        /// Getting Currencies with its Aliases 
+        /// </summary>
+        /// <param name="cancellationToken">cancellation token for cancelling Task</param>
+        /// <returns></returns>
         public async Task<List<CurrencyIdValuePair>> GetCurrencies(CancellationToken cancellationToken)
         {
             var currencies = await _dbContext.Currencies
@@ -136,15 +172,20 @@ namespace BankRateAggregator.Application.Services.Currency
             var listCurrencies = new List<CurrencyResult>();
             CurrencyResult? curr = null;
 
+            // iteration from HTML result list that we've get from Web Scrapping
             foreach (var item in list)
             {
+                // if Currency from Bank is the currency we want to parse
                 if (currencies.Select(x => x.Code).Contains(item))
                 {
+                    // it's a new Currency
                     if (curr?.Currency != item)
                     {
+                        //Adding already existing currency to the list (if exists) 
                         if (curr is not null)
                             listCurrencies.Add(curr);
 
+                        //init new currency
                         curr = new CurrencyResult
                         {
                             Currency = item,
@@ -153,12 +194,14 @@ namespace BankRateAggregator.Application.Services.Currency
                         };
                     }
                 }
+                // When thare is a rate number we get that and ignoring the results where central bank rates are exists
                 else if (curr is not null && decimal.TryParse(item, out decimal number) && curr.Rates.Count < 2)
                 {
                     curr.Rates.Add(decimal.Parse(item));
                 }
             }
 
+            //for last iteration if there are any currency left
             if (curr is not null)
                 listCurrencies.Add(curr);
 
@@ -175,8 +218,8 @@ namespace BankRateAggregator.Application.Services.Currency
                 {
                     BankId = bankId,
                     CurrencyId = item.CurrencyId,
-                    Buy = item.Rates.Any() ? item.Rates.Min() : null,
-                    Sell = item.Rates.Any() ? item.Rates.Max() : null
+                    Buy = item.Rates.Any() ? item.Rates.Min() : null, // minimum value for BUY rate
+                    Sell = item.Rates.Any() ? item.Rates.Max() : null // maximum Value for SELL rate
                 });
             }
 
