@@ -11,7 +11,7 @@ namespace BankRateAggregator.Application.Services.Banks.Models
         {
             List<Rate>? rates = new();
             var model = System.Text.Json.JsonSerializer.Deserialize<MellatBankApiModel>(responseBody);
-            rates.AddRange(model.result.data.Select(item => new Rate
+            rates.AddRange(model.result.data.Where(x => currencies.Select(s => s.Code).Contains(x.currency)).Select(item => new Rate
             {
                 Buy = Convert.ToDecimal(item.buy),
                 Sell = Convert.ToDecimal(item.sell),

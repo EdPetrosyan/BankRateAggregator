@@ -10,7 +10,7 @@ namespace BankRateAggregator.Application.Services.Banks.Models
         {
             List<Rate>? rates = new();
             var model = System.Text.Json.JsonSerializer.Deserialize<ArmSwissBankApiModel>(responseBody);
-            rates.AddRange(model.lmasbrate.Select(item => new Rate
+            rates.AddRange(model.lmasbrate.Where(x => currencies.Select(s => s.Code).Contains(x.ISO)).Select(item => new Rate
             {
                 Buy = Convert.ToDecimal(item.BID_cash),
                 Sell = Convert.ToDecimal(item.OFFER_cash),

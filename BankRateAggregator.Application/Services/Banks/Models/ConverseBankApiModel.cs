@@ -12,7 +12,7 @@ namespace BankRateAggregator.Application.Services.Banks.Models
         {
             List<Rate>? rates = new();
             var model = System.Text.Json.JsonSerializer.Deserialize<ConverseBankApiModel>(responseBody);
-            rates.AddRange(model.Cash.Select(item => new Rate
+            rates.AddRange(model.Cash.Where(x => currencies.Select(s => s.Code).Contains(x.currency.iso)).Select(item => new Rate
             {
                 Buy = Convert.ToDecimal(item.buy),
                 Sell = Convert.ToDecimal(item.sell),

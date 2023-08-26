@@ -12,7 +12,7 @@
                       new()
                       {
                     { "https://www.armswissbank.am/include/ajax.php", ()=>new ArmSwissBankApiModel() },
-                    { "https://webapi.conversebank.am/api/v2/currencyrates", ()=>new ConverseBankApiModel() },
+                    { "https://sapi.conversebank.am/api/v2/currencyrates", ()=>new ConverseBankApiModel() },
                     { "https://mobileapi.fcc.am/FCBank.Mobile.Api_V2/api/publicInfo/getRates?langID=2", ()=>new FastBankApiModel() },
                     { "https://www.inecobank.am/api/rates/", ()=>new InecoBankApiModel() },
                     { "https://api.mellatbank.am/api/v1/rate/list", ()=>new MellatBankApiModel() }
